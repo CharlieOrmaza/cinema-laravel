@@ -39,7 +39,7 @@ class UsuarioController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => $request->password
         ]);
 
         return redirect('/usuario')->with('message-success','Usuario registrado');
@@ -64,7 +64,9 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('usuario.edit')->with('user',$user);
     }
 
     /**
@@ -76,7 +78,11 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->fill($request->all());
+        $user->save();
+
+        return redirect('/usuario')->with('message-success','El usuario ha sido actualizado correctamente');
     }
 
     /**
@@ -87,6 +93,9 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect('/usuario')->with('message-success','El usuario ha sido eliminado correctamente');
     }
 }

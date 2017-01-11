@@ -8,6 +8,9 @@
 @endif
 
 @section('content')
+
+    <h2 class="text-center page-header"> Listado de Usuarios</h2>
+
     <table class="table">
         <thead>
             <th>Nombre</th>
@@ -22,6 +25,10 @@
                 <td>{{ $user->email }}</td>
                 <td>
                     {!! link_to_route('usuario.edit', 'Editar', $parameters = ['id' => $user->id], $attributes = ['class' => 'btn btn-primary']) !!}
+                    <br>
+                    {!! Form::open(['route' => ['usuario.destroy', $user->id],'method'=>'DELETE']) !!}
+                    {!! Form::submit('Delete',['class' => 'btn btn-danger']) !!}
+                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach
